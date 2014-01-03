@@ -5,7 +5,7 @@ class Spree::PossiblePage
   end
 
   def matches?(request)
-    possible_page?(request) && Spree::Page.active.find_by_path(request.fullpath)
+    possible_page?(request) && Spree::Page.active.find_by_path(request.path)
   end
 end
 
