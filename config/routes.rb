@@ -5,7 +5,7 @@ class Spree::PossiblePage
     components.shift if @locales.include?(components.first)
     return false if components.first =~ /^(admin|account|cart|checkout|content|login|pg|orders|products|s|session|signup|shipments|states|t|tax_categories|user)$/
     path = components.join("/")
-    !Spree::Page.active.find_by_path(path).nil?
+    !Spree::Page.active.find_by_fuzzy_path(path).nil?
   end
 end
 
