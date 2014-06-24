@@ -1,9 +1,9 @@
 class Spree::Page < ActiveRecord::Base
   
   class << self
-    def find_by_path(_path)
-      return super('/') if _path == "_home_" && self.exists?(:path => "/")
-      super _path.to_s.sub(/^\/*/, "/").gsub("--", "/")
+    def find_by_fuzzy_path(_path)
+      return find_by_path('/') if _path == "_home_" && self.exists?(:path => "/")
+      find_by_path _path.to_s.sub(/^\/*/, "/").gsub("--", "/")
     end
 
   end
