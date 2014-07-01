@@ -5,3 +5,4 @@ coverage
 pkg/*
 test/dummy_hooks/after_migrate.rb
 test/dummy
+.idea/*
