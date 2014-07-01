@@ -1,7 +1,11 @@
 class Spree::PossiblePage
   def self.matches?(request) 
-    return false if request.path =~ /(^\/+(admin|account|cart|checkout|content|login|pg\/|orders|products|s\/|session|signup|shipments|states|t\/|tax_categories|user)+)/
-    !Spree::Page.active.find_by_path(request.path).nil?
+    @locales ||= I18n.available_locales.map &:to_s
+    components = request.path.gsub(/(^\/+)/, "").split('/')
+    components.shift if @locales.include?(components.first)
+    return false if components.first =~ /^(admin|account|cart|checkout|content|login|pg|orders|products|s|session|signup|shipments|states|t|tax_categories|user)$/
+    path = components.join("/")
+    !Spree::Page.active.find_by_fuzzy_path(path).nil?
   end
 end
 
