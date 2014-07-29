@@ -29,7 +29,7 @@ class Spree::Admin::PagesController < Spree::Admin::ResourceController
       params[:q] ||= {}
       params[:q][:s] ||= "position asc"
       @search = Spree::Page.search(params[:q])
-      @collection = @search.result
+      @collection = @search.result.includes(:translations)
     end
 
 end
