@@ -1,20 +1,17 @@
-<div class='toolbar'>
-  <ul class='actions'>
-    <li>
-      <p><%= button_link_to t('.new_content'), new_object_url, :icon => 'add' %></p>
-    </li>
-  </ul>
-  <br class='clear' />
-</div>
+<% content_for :page_title do %>
+  <%= t('.listing_contents') %>
+<% end %>
 
-<%= render :partial => 'spree/admin/shared/page_tabs', :locals => {:current => 'Contents'} %>
-
-<h2><%= t('.listing_contents') %></h2>
+<% content_for :page_actions do %>
+  <li id="new_page_link">
+      <%= button_link_to t('.new_content'), new_object_url, :icon => 'add' %>
+  </li>
+<% end %>
 
 <table class="index sortable" data-sortable-link="<%= update_positions_admin_page_contents_url(@page) -%>">
   <thead>
   <tr>
-      <th><%= sort_link @search, :title, t("content.title") %></th>
+      <th colspan="2"><%= sort_link @search, :title, t("content.title") %></th>
       <th><%= sort_link @search, :context, t("content.context") %></th>
       <th><%= t("action") %></th>
   </tr>
@@ -22,7 +19,10 @@
   <tbody>
     <%- @collection.each do |content|%>
     <tr id="<%= spree_dom_id content %>">
-      <td><span class="handle">&nbsp;</span>&nbsp; <%= link_to content.title, object_url(content) %></td>
+      <td class="no-border">
+        <span class="handle"></span>
+      </td>
+      <td><%= link_to content.title, object_url(content) %></td>
       <td><%= content.context %>
       <td>
         <%= link_to_edit content %> &nbsp;
@@ -35,19 +35,34 @@
 
 <%= paginate @collection %>
 
-<% content_for :sidebar do %>
-  <div class="box">
-    <h3><%= t(:search) %></h3>
+<% content_for :table_filter_title do %>
+  <%= Spree.t(:search) %>
+<% end %>
+
+<% content_for :table_filter do %>
+  <div data-hook="admin_content_index_search">
     <%= search_form_for [:admin, @page, @search] do |f| %>
-      <p>
-        <%= f.label :title_cont, t('content.title') %><br />
-        <%= f.text_field :title_cont, :size => 25 %>
-      </p>
-      <p>
-        <%= f.label :context_cont, t('content.context') %><br />
-        <%= f.text_field :context_cont, :size => 25 %>
-      </p>
-      <p><%= button t("search") %></p>
+      <div class="field-block alpha four columns">
+        <div class="field">
+          <%= f.label :title_cont, t('content.title') %><br />
+          <%= f.text_field :title_cont, :size => 25 %>
+        </div>
+      </div>
+      <div class="field-block omega four columns">
+        <div class="field">
+          <%= f.label :context_cont, t('content.context') %><br />
+          <%= f.text_field :context_cont, :size => 25 %>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="actions filter-actions">
+        <div data-hook="admin_pages_index_search_buttons">
+          <%= button Spree.t(:filter_results), 'icon-search' %>
+        </div>
+      </div>
     <% end %>
   </div>
 <% end %>
+
+<%= render :partial => 'spree/admin/shared/page_tabs', :locals => {:current => 'Contents'} %>
+
