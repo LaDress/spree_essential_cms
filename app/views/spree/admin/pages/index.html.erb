@@ -15,7 +15,7 @@
       <th><%= sort_link @search, :path, t("page.path") %></th>
       <th><%= sort_link @search, :accessible, t("page.accessible") %></th>
       <th><%= sort_link @search, :visible, t("page.visible") %></th>
-      <th><%= t("action") %></th>
+      <th class="actions"><%= t("action") %></th>
   </tr>
   </thead>
   <tbody>
@@ -28,11 +28,11 @@
       <td><%= page.path %></td>
       <td><%= page.accessible %></td>
       <td><%= page.visible %></td>
-      <td>
-        <%= link_to_with_icon :accept, t('preview'), page.path, :onclick => 'window.open(this.href);return false;' %> &nbsp;
+      <td class="actions">
+        <%= link_to_with_icon :accept, t('preview'), page.path, onclick: 'window.open(this.href);return false;' %> &nbsp;
         <%= link_to_with_icon :pages, t('page.contents'), admin_page_contents_path(page) %> &nbsp;
-        <%= link_to_edit page %> &nbsp;
-        <%= link_to_delete page %>
+        <%= link_to_edit page, no_text: true %> &nbsp;
+        <%= link_to_delete page, no_text: true %>
       </td>
     </tr>
     <% end %>
